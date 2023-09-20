@@ -1,13 +1,23 @@
-doctype html
- html 
-     head 
-       title= `${title}`
-       meta(name="viewport" content="width=device-width, initial-scale=1")
-         link(rel="stylesheet", href="/")
-   body    
-       h1 Contacts
-            .cards 
-              each contact in data
-                   .card 
-                      h2.card__name #{contact.properties.firstname}  #{contact.properties.lastname}
-                          p.card__email #{contact.properties.email}
+html 
+  head 
+      title= `${title}`
+      meta(name="viewport" content="width=device-width, initial-scale=1")
+      link(rel="stylesheet", href="/")
+  body    
+    a.btn(href='/') Return to the homepage
+    
+    .form
+        h1 Add A Cat
+        form(action='/update-cobj' method='POST')
+          p Name:
+          input(type="text" name="name" placeholder="Callie")
+          p Birthdate:
+          input(type="text" name="birth_date" placeholder="")
+          p Colour:
+          input(type="text" name="cat_colour" placeholder="")
+          p Gender:
+          input(type="text" name="male_or_female" placeholder="")
+          button(type="submit") Submit
+
+ 
+    

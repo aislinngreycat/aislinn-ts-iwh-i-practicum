@@ -1,16 +1,20 @@
 const express = require('express');
 const axios = require('axios');
+const bodyParser = require('body-parser');
 const app = express();
-
+app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
+;
 app.use(express.json());
 
 // * Please include the private app access token in your repo BUT only an access token built in a TEST ACCOUNT. Don't do this practicum in your normal account.
 const PRIVATE_APP_ACCESS = 'pat-na1-9230bd36-6e29-497b-9bac-eb97a28d16c6';
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
+// * Code for Route 1 goes here
+
 app.get('/', async(req, res) => {
 
     const petcats = 'https://api.hubapi.com/crm/v3/objects/2-16830394?limit=10&properties=birth_date&properties=cat_colour&properties=name&properties=male_or_female&archived=false'
@@ -32,9 +36,9 @@ app.get('/', async(req, res) => {
             }
             records.push(a)
         })
-        console.log(records.sort())
+        //console.log(records.sort())
         res.render('homepage', {
-                title: 'Pet Cats',
+                title: 'My Pet Cats',
                 fields: records,
                 headers: Object.keys(records[0])
          });
@@ -44,16 +48,49 @@ app.get('/', async(req, res) => {
     }
   });
 
-// * Code for Route 1 goes here
+
 
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
+app.get('/update-cobj', async(req, res) => {
 
+    try {
+        res.render('updates', { title: 'Update Custom Object Form | Integrating With HubSpot I Practicum'});      
+    } catch (error) {
+        console.error(error);
+    }
+
+
+})
 // * Code for Route 2 goes here
+
 
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
 // * Code for Route 3 goes here
+app.post('/update-cobj', async(req, res) => {
+    console.log("Request Goes Here")
+    const newpet = {
+        properties: {
+                birth_date: req.body.birth_date,
+                cat_colour: req.body.cat_colour,
+                male_or_female: req.body.male_or_female,
+                name: req.body.name
+        }
+    }
+    newpet.save()
+        .then(data => {
+            res.render('Updates',
+                    { msg: "Your Record Was Added/Updated." });
+        })
+    try {
+        console.log(newpet)  
+        //res.render('updates', { title: 'Update Custom Object Form | Integrating With HubSpot I Practicum'});      
+    } catch (error) {
+        console.error(error);
+    }
 
+
+})
 /** 
 * * This is sample code to give you a reference for how you should structure your calls. 
 

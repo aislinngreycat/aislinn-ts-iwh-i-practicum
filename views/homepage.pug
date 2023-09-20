@@ -1,6 +1,7 @@
 style(type="text/css").
   table {
-    width: 100%
+    width: 100%;
+    font: "arial", "sans-serif"
   }
 
   th {
@@ -15,10 +16,13 @@ style(type="text/css").
     border: 1px solid black;
     padding: 1em;
   }
-  
+head 
+      title= `${title}`
+      meta(name="viewport" content="width=device-width, initial-scale=1")
+      link(rel="stylesheet", href="/")  
 body    
        h1 Your Pet Cats
-
+       a.btn(href="/update-cobj") Add/Update   
        table
          thead
             tr
