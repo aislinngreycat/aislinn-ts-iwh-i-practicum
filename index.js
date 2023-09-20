@@ -8,23 +8,37 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // * Please include the private app access token in your repo BUT only an access token built in a TEST ACCOUNT. Don't do this practicum in your normal account.
-const PRIVATE_APP_ACCESS = '';
+const PRIVATE_APP_ACCESS = 'pat-na1-9230bd36-6e29-497b-9bac-eb97a28d16c6';
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 app.get('/', async(req, res) => {
 
-    const petcats = 'https://api.hubspot.com/crm/v3/objects/xxxxx'
+    const petcats = 'https://api.hubapi.com/crm/v3/objects/2-16830394?limit=10&properties=birth_date&properties=cat_colour&properties=name&properties=male_or_female&archived=false'
     const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Authorization': `Bearer ${PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
     }
     try {
         const resp = await axios.get(petcats, { headers });
         const data = resp.data.results;
+       // const tbheaders = Object.keys(data[0].properties)
+        const records = []
+        data.forEach(item=>{
+            let a = {
+            Name: item.properties.name,
+            Birthdate: item.properties.birth_date,
+            Colour : item.properties.cat_colour,
+            Gender : item.properties.male_or_female
+            }
+            records.push(a)
+        })
+        console.log(records.sort())
         res.render('homepage', {
                 title: 'Pet Cats',
+                fields: records,
+                headers: Object.keys(records[0])
          });
-    }
+        }
     catch (error) {
         console.error(error);
     }
