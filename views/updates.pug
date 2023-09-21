@@ -12,11 +12,13 @@ html
           p Name:
           input(type="text" name="name" placeholder="Callie")
           p Birthdate:
-          input(type="text" name="birth_date" placeholder="")
+          input(type="date" name="birth_date" placeholder="")
           p Colour:
           input(type="text" name="cat_colour" placeholder="")
           p Gender:
-          input(type="text" name="male_or_female" placeholder="")
+           select(name='questionAnswer')
+                            option(value='Male') Male
+                            option(value='Female ') Female
           button(type="submit") Submit
 
  

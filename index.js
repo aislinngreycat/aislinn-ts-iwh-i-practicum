@@ -77,14 +77,17 @@ app.post('/update-cobj', async(req, res) => {
                 name: req.body.name
         }
     }
-    newpet.save()
-        .then(data => {
-            res.render('Updates',
-                    { msg: "Your Record Was Added/Updated." });
-        })
     try {
-        console.log(newpet)  
-        //res.render('updates', { title: 'Update Custom Object Form | Integrating With HubSpot I Practicum'});      
+        //console.log(newpet) 
+        const petcats = 'https://api.hubapi.com/crm/v3/objects/2-16830394'
+        const headers = {
+        'Authorization': `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+         }
+        const resp = await axios.post(petcats, newpet, {headers})
+        console.log(resp) 
+
+         
     } catch (error) {
         console.error(error);
     }
