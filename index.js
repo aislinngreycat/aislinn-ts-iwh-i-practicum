@@ -17,7 +17,7 @@ const PRIVATE_APP_ACCESS = 'pat-na1-9230bd36-6e29-497b-9bac-eb97a28d16c6';
 
 app.get('/', async(req, res) => {
 
-    const petcats = 'https://api.hubapi.com/crm/v3/objects/2-16830394?limit=100&properties=birth_date&properties=cat_colour&properties=name&properties=male_or_female&archived=false'
+    const petcats = 'https://api.hubapi.com/crm/v3/objects/2-16830394?limit=50&properties=birth_date&properties=cat_colour&properties=name&properties=male_or_female&archived=false'
     const headers = {
         'Authorization': `Bearer ${PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ app.get('/update-cobj', async(req, res) => {
 
     try {
         res.render('updates', { title: 'Update Custom Object Form | Integrating With HubSpot I Practicum'}); 
-        //1. Render As-Is Records
+    //TODO. Render As-Is Records for Edit
     } catch (error) {
         console.error(error);
     }
@@ -62,7 +62,6 @@ app.get('/update-cobj', async(req, res) => {
 
 })
 // * Code for Route 2 goes here
-
 
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
@@ -86,7 +85,7 @@ app.post('/update-cobj', async(req, res) => {
         'Content-Type': 'application/json'
          }
 
-        // 2. Get Call and Render to Homepage
+        // 2. Get Call and Route to Homepage
         let records = await getPetCats()
         res.render('Homepage', 
         { title: 'My Pet Cats| Integrating With HubSpot I Practicum',
@@ -150,7 +149,7 @@ app.post('/update', async (req, res) => {
 app.listen(3000, () => console.log('Listening on http://localhost:3000'));
 
 async function  getPetCats(){
-    const getcats = 'https://api.hubapi.com/crm/v3/objects/2-16830394?limit=100&properties=birth_date&properties=cat_colour&properties=name&properties=male_or_female&archived=false'
+    const getcats = 'https://api.hubapi.com/crm/v3/objects/2-16830394?limit=50&properties=birth_date&properties=cat_colour&properties=name&properties=male_or_female&archived=false'
     const getUpdates= await axios.get(getcats, { headers });
     const data = getUpdates.data.results;
     const records = []
