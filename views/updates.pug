@@ -3,7 +3,7 @@ html
       title= `${title}`
       meta(name="viewport" content="width=device-width, initial-scale=1")
       link(rel="stylesheet", href="/")
-  body    
+  body  
     a.btn(href='/') Return to the homepage
     
     .form
@@ -16,10 +16,15 @@ html
           p Colour:
           input(type="text" name="cat_colour" placeholder="")
           p Gender:
-           select(name='questionAnswer')
+           select(name='male_or_female')
                             option(value='Male') Male
-                            option(value='Female ') Female
+                            option(value='Female') Female
           button(type="submit") Submit
 
+    if message
+        h1  #{message}
+    
+
+      
  
     

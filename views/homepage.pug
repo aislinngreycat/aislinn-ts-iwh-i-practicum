@@ -22,7 +22,9 @@ head
       link(rel="stylesheet", href="/")  
 body    
        h1 Your Pet Cats
-       a.btn(href="/update-cobj") Add/Update   
+       if message
+        h1  #{message}
+       a.btn(href="/update-cobj") Add/Update this Table 
        table
          thead
             tr
@@ -35,6 +37,6 @@ body
                     td= field.Birthdate
                     td= field.Colour
                     td= field.Gender
-                    
+ 
                    
                     

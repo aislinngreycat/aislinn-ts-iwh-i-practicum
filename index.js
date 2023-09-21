@@ -17,7 +17,7 @@ const PRIVATE_APP_ACCESS = 'pat-na1-9230bd36-6e29-497b-9bac-eb97a28d16c6';
 
 app.get('/', async(req, res) => {
 
-    const petcats = 'https://api.hubapi.com/crm/v3/objects/2-16830394?limit=10&properties=birth_date&properties=cat_colour&properties=name&properties=male_or_female&archived=false'
+    const petcats = 'https://api.hubapi.com/crm/v3/objects/2-16830394?limit=100&properties=birth_date&properties=cat_colour&properties=name&properties=male_or_female&archived=false'
     const headers = {
         'Authorization': `Bearer ${PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
@@ -25,7 +25,6 @@ app.get('/', async(req, res) => {
     try {
         const resp = await axios.get(petcats, { headers });
         const data = resp.data.results;
-       // const tbheaders = Object.keys(data[0].properties)
         const records = []
         data.forEach(item=>{
             let a = {
@@ -38,7 +37,7 @@ app.get('/', async(req, res) => {
         })
         //console.log(records.sort())
         res.render('homepage', {
-                title: 'My Pet Cats',
+                title: 'My Pet Cats| Integrating With HubSpot I Practicum',
                 fields: records,
                 headers: Object.keys(records[0])
          });
@@ -54,7 +53,8 @@ app.get('/', async(req, res) => {
 app.get('/update-cobj', async(req, res) => {
 
     try {
-        res.render('updates', { title: 'Update Custom Object Form | Integrating With HubSpot I Practicum'});      
+        res.render('updates', { title: 'Update Custom Object Form | Integrating With HubSpot I Practicum'}); 
+        //1. Render As-Is Records
     } catch (error) {
         console.error(error);
     }
@@ -78,15 +78,22 @@ app.post('/update-cobj', async(req, res) => {
         }
     }
     try {
-        //console.log(newpet) 
+        console.log(newpet) 
+        //1. Update Post Call 
         const petcats = 'https://api.hubapi.com/crm/v3/objects/2-16830394'
         const headers = {
         'Authorization': `Bearer ${PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
          }
-        const resp = await axios.post(petcats, newpet, {headers})
-        console.log(resp) 
 
+        // 2. Get Call and Render to Homepage
+        let records = await getPetCats()
+        res.render('Homepage', 
+        { title: 'My Pet Cats| Integrating With HubSpot I Practicum',
+        message: 'Update Done!',
+        fields: records,
+       headers: Object.keys(records[0])
+        });  
          
     } catch (error) {
         console.error(error);
@@ -141,3 +148,22 @@ app.post('/update', async (req, res) => {
 
 // * Localhost
 app.listen(3000, () => console.log('Listening on http://localhost:3000'));
+
+async function  getPetCats(){
+    const getcats = 'https://api.hubapi.com/crm/v3/objects/2-16830394?limit=100&properties=birth_date&properties=cat_colour&properties=name&properties=male_or_female&archived=false'
+    const getUpdates= await axios.get(getcats, { headers });
+    const data = getUpdates.data.results;
+    const records = []
+        data.forEach(item=>{
+            let a = {
+            Name: item.properties.name,
+            Birthdate: item.properties.birth_date,
+            Colour : item.properties.cat_colour,
+            Gender : item.properties.male_or_female
+            }
+            records.push(a)
+        })
+    
+        return records
+
+}
