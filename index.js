@@ -84,6 +84,7 @@ app.post('/update-cobj', async(req, res) => {
         'Authorization': `Bearer ${PRIVATE_APP_ACCESS}`,
         'Content-Type': 'application/json'
          }
+        const updatecats = await axios.post(petcats, newpet, { headers } );
 
         // 2. Get Call and Route to Homepage
         let records = await getPetCats()
@@ -150,6 +151,10 @@ app.listen(3000, () => console.log('Listening on http://localhost:3000'));
 
 async function  getPetCats(){
     const getcats = 'https://api.hubapi.com/crm/v3/objects/2-16830394?limit=50&properties=birth_date&properties=cat_colour&properties=name&properties=male_or_female&archived=false'
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    }
     const getUpdates= await axios.get(getcats, { headers });
     const data = getUpdates.data.results;
     const records = []
